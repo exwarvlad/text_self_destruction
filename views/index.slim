@@ -1,0 +1,14 @@
+h3 Self destruction message
+
+form method='post' action='/message/create'
+  label for='body' Body
+  textarea#body name='body'
+  br
+  br
+  label for='expire_hours' Expire hours
+  input#expire_hours name='expire_hours' placeholder='1..24'
+  br
+  label for='click_limit' Click limit
+  input#click_limit name='click_striker' placeholder='1..24'
+  br
+  input type='submit' value='Create message'

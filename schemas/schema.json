@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["body"],
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "expire_hours": {
+      "type": "string",
+      "pattern": "[1-24]"
+    },
+    "click_striker": {
+      "type": "string",
+      "pattern": "[1-24]"
+    }
+  }
+}
+
