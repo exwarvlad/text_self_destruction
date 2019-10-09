@@ -9,3 +9,6 @@ gem "slim"
 
 # validation
 gem 'json-schema'
+
+# test
+gem 'rspec'
