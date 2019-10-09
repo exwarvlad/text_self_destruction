@@ -12,3 +12,6 @@ gem 'json-schema'
 
 # test
 gem 'rspec'
+
+# secure
+gem 'dotenv'
