@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'byebug'
+require_relative 'config/redis'
 require_relative 'lib/message'
 
 get '/' do
@@ -13,5 +14,5 @@ get '/message/*' do
 end
 
 post '/message/create' do
-  Message.new(params, BaseValidator.new).call
+  Message.new(params, BaseValidator.new).call_service
 end

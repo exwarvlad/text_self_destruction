@@ -1,16 +1,15 @@
-# frozen_string_literal: true
-
 require 'securerandom'
 require 'active_support/time'
 require 'byebug'
 
 class TokenMutator
-  attr_reader :expire_hours
+  attr_reader :expire_hours, :click_striker
 
   SECURE_HEX_SIZE = 5
 
   def initialize(params)
     @expire_hours = params[:expire_hours].to_i
+    @click_striker = params[:click_striker]
   end
 
   def self.find_time_by_token(token)
@@ -19,25 +18,29 @@ class TokenMutator
     Time.at(token[2..token[1].to_i + 1].to_i(32))
   end
 
+  def self.striker?(token)
+    token[-1] == 's'
+  end
+
   def call
-    if expire_hours.present?
-      make_token_with_hex_time(expire_hours)
-    else
-      make_token
-    end
+    token = make_token
+    token.prepend(time_stamp) if expire_hours.present? && expire_hours.positive?
+    token << 's' if click_striker.present?
+
+    token
   end
 
   private
 
   # token have not hex time if first symbol is num
   def make_token
-    "#{rand(0..9)}#{SecureRandom.hex(SECURE_HEX_SIZE)}}"
+    "#{rand(0..9)}#{SecureRandom.hex(SECURE_HEX_SIZE)}#{rand(0..9)}"
   end
 
   # t - timing is present
-  # and current secure hex counter
-  def make_token_with_hex_time(expire_hours)
+  # and current secure hex size
+  def time_stamp
     hex_time = ((Time.now + expire_hours.hour).to_i).to_s(32)
-    "t#{hex_time.size}#{hex_time}#{make_token}"
+    "t#{hex_time.size}#{hex_time}"
   end
 end

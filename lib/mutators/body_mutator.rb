@@ -9,8 +9,8 @@ class BodyMutator
   def initialize(params)
     cipher = OpenSSL::Cipher::AES.new(128, :CBC)
     cipher.encrypt
-    cipher.key = ENV['key']
-    cipher.iv = ENV['iv']
+    cipher.key = ENV['key'][0..15]
+    cipher.iv = ENV['iv'][0..15]
 
     @encrypted = cipher.update(params[:body]) + cipher.final
   end
