@@ -9,6 +9,8 @@ when 'development'
   REDISTOGO_URL = 'redis://localhost:6379/0'
 when 'test'
   REDISTOGO_URL = 'redis://localhost:6379/1'
+else
+  REDISTOGO_URL = 'redis://localhost:6379/3'
 end
 
 configure do

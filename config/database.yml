@@ -1,0 +1,13 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: <%= ENV['pg_username'] %>
+  password: <%= ENV['pg_password'] %>
+
+development:
+  <<: *default
+  database: <%= ENV['development_database'] %>
+
+test:
+  <<: *default
+  database: <%= ENV['test_database'] %>

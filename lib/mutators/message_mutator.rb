@@ -14,6 +14,6 @@ class MessageMutator
     @mutated_params = {token: TokenMutator.new(params).call,
                        body: BodyMutator.new(params).encrypted,
                        expire_hours: params[:expire_hours],
-                       click_strike: params[:click_strike].to_i}
+                       click_striker: params[:click_striker]}
   end
 end

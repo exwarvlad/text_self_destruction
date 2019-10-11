@@ -13,10 +13,4 @@ class Message
     @params = params.slice(*ACCESS_KEYS)
     @valid = validator.validate(params)
   end
-
-  def call_service
-    return false unless valid
-
-    MessageService.new(MessageMutator.new(params).mutated_params).call
-  end
 end

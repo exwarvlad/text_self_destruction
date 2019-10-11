@@ -1,21 +1,28 @@
 # frozen_string_literal: true
 
-class MessageService
-  attr_reader :token, :body, :expire_hours, :click_strike
+require 'base64'
+require_relative '../../lib/mutators/message_mutator'
 
-  def initialize(params)
+class MessageService
+  attr_reader :token, :body, :expire_hours, :click_striker
+
+  def initialize(message_params)
+    params = MessageMutator.new(message_params).mutated_params
     @token = params[:token]
     @body = params[:body]
     @expire_hours = params[:expire_hours]
-    @click_strike = params[:click_strike]
+    @click_striker = params[:click_striker]
   end
 
   def call
     case true
+    when striker? && timing?
+      ClickStriker.create(slug: token, counter: click_striker, body: body)
+      post_to_redis
     when timing?
       post_to_redis
     when striker?
-      # todo
+      ClickStriker.create(slug: token, counter: click_striker)
     end
   end
 
@@ -24,7 +31,7 @@ class MessageService
   end
 
   def striker?
-    click_strike.present?
+    click_striker.present?
   end
 
   private
