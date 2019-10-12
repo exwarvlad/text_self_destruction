@@ -10,7 +10,7 @@ class Message
   ACCESS_KEYS = %i[body expire_hours click_striker].freeze
 
   def initialize(params, validator = BaseValidator.new)
-    @params = params.slice(*ACCESS_KEYS)
-    @valid = validator.validate(params)
+    @params = params.slice(*ACCESS_KEYS).delete_if { |_k, v| v.blank? }
+    @valid = validator.validate(JSON(@params.to_json))
   end
 end

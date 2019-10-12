@@ -24,7 +24,7 @@ class TokenMutator
 
   def call
     token = make_token
-    token.prepend(time_stamp) if expire_hours.present? && expire_hours.positive?
+    token.prepend(time_stamp) if expire_hours.positive?
     token << 's' if click_striker.present?
 
     token

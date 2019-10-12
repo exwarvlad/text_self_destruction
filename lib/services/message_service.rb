@@ -27,11 +27,11 @@ class MessageService
   end
 
   def timing?
-    expire_hours.present?
+    expire_hours.positive?
   end
 
   def striker?
-    click_striker.present?
+    click_striker.positive?
   end
 
   private

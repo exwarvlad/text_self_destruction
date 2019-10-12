@@ -3,6 +3,7 @@ default: &default
   encoding: unicode
   username: <%= ENV['pg_username'] %>
   password: <%= ENV['pg_password'] %>
+  port: 5433
 
 development:
   <<: *default

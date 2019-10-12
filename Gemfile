@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # app
 gem 'sinatra'
 gem 'byebug'
+gem 'thin'
 
 # view
 gem "slim"
