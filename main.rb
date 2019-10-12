@@ -5,9 +5,13 @@ require 'dotenv/load'
 require 'sinatra/activerecord'
 require 'byebug'
 require 'thin'
+require 'sidekiq'
+require_relative 'config/sidekiq'
 require_relative 'lib/click_striker'
 require_relative 'config/redis'
 require_relative 'lib/message'
+require_relative 'lib/services/body_service'
+require_relative 'lib/workers/dead_shot_worker'
 
 get '/' do
   slim :index
@@ -18,7 +22,15 @@ get '/token' do
 end
 
 get '/message/*' do
-  slim :show
+  token = request.path.split('/').last
+  message = BodyService.new(token).call
+
+  if message
+    slim :show, locals: {message: message}
+  else
+    status 404
+    body 'not found'
+  end
 end
 
 post '/message/create' do

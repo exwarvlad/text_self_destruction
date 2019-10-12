@@ -22,3 +22,6 @@ gem 'redis'
 gem 'pg'
 gem 'rake'
 gem 'sinatra-activerecord'
+
+# background
+gem 'sidekiq'

@@ -8,9 +8,12 @@ class Message
   attr_reader :params, :validator, :valid
 
   ACCESS_KEYS = %i[body expire_hours click_striker].freeze
+  INTEGER_KEYS = %i[expire_hours click_striker].freeze
 
   def initialize(params, validator = BaseValidator.new)
-    @params = params.slice(*ACCESS_KEYS).delete_if { |_k, v| v.blank? }
-    @valid = validator.validate(JSON(@params.to_json))
+    @params = JSON(params.to_json, symbolize_names: true)
+    @params.slice!(*ACCESS_KEYS).delete_if { |_k, v| v.blank? }
+    INTEGER_KEYS.each { |k| @params[k] = @params[k].to_i if @params[k] }
+    @valid = validator.validate(@params)
   end
 end

@@ -1,4 +1,6 @@
+require 'sidekiq'
 require_relative '../../lib/mutators/token_mutator'
+require_relative '../../lib/workers/dead_shot_worker'
 
 class BodyService
   attr_reader :token
@@ -30,9 +32,9 @@ class BodyService
     click_striker.update(counter: click_striker.counter - 1)
 
     if click_striker.counter >= 0
-      BodyMutator.decipher_message(REDIS.get(token))
-      # todo
-      # cleans pg and redis message
+      decrypted_message = BodyMutator.decipher_message(REDIS.get(token))
+      DeadShotWorker.perform_async(token) if click_striker.counter <= 0
+      decrypted_message
     end
   end
 end

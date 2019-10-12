@@ -8,12 +8,14 @@
       "maxLength": 255
     },
     "expire_hours": {
-      "type": "string",
-      "pattern": "[1-24]"
+      "type": "number",
+      "minimum": 1,
+      "maximum": 24
     },
     "click_striker": {
-      "type": "string",
-      "pattern": "[1-24]"
+      "type": "number",
+      "minimum": 1,
+      "maximum": 24
     }
   }
 }

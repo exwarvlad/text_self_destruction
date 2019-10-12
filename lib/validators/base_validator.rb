@@ -12,6 +12,6 @@ class BaseValidator
   private
 
   def destroyer_param_present?(params)
-    params['expire_hours'].to_i.between?(1, 24) || params['click_striker'].to_i.between?(1, 24)
+    params[:expire_hours].to_i.between?(1, 24) || params[:click_striker].to_i.between?(1, 24)
   end
 end
