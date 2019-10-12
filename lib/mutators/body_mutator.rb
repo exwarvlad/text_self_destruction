@@ -30,6 +30,6 @@ class BodyMutator
     decipher.key = ENV['key'][0..15]
     decipher.iv = ENV['iv'][0..15]
 
-    decipher.update(encrypted_message) + decipher.final
+    decipher.update(BodyMutator.encode_ascii(encrypted_message)) + decipher.final
   end
 end

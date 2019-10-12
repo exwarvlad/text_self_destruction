@@ -9,13 +9,17 @@ class TokenMutator
 
   def initialize(params)
     @expire_hours = params[:expire_hours].to_i
-    @click_striker = params[:click_striker]
+    @click_striker = params[:click_striker].to_i
   end
 
   def self.find_time_by_token(token)
     return unless token[0] == 't'
 
     Time.at(token[2..token[1].to_i + 1].to_i(32))
+  end
+
+  def self.timing?(token)
+    token[0] == 't'
   end
 
   def self.striker?(token)
@@ -25,7 +29,7 @@ class TokenMutator
   def call
     token = make_token
     token.prepend(time_stamp) if expire_hours.positive?
-    token << 's' if click_striker.present?
+    token << 's' if click_striker.positive?
 
     token
   end

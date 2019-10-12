@@ -4,7 +4,6 @@ require 'rspec'
 require 'byebug'
 require_relative '../../spec/helpers'
 require_relative '../../config/redis'
-require_relative '../../lib/validators/base_validator'
 require_relative '../../lib/message'
 
 describe '.call' do
@@ -15,7 +14,7 @@ describe '.call' do
     message_service = MessageService.new(Message.new(request_params).params)
     message_service.call
     redis_ttl_message = REDIS.ttl(message_service.token)
-    redis_encrypted_message = BodyMutator.encode_ascii(REDIS.get(message_service.token))
+    redis_encrypted_message = REDIS.get(message_service.token)
     deciphered_message = BodyMutator.decipher_message(redis_encrypted_message)
 
     expect(redis_encrypted_message).not_to eq(request_params[:body])
@@ -40,7 +39,7 @@ describe '.call' do
     message_service = MessageService.new(Message.new(request_params).params)
     message_service.call
     click_striker = ClickStriker.find_by_slug(message_service.token)
-    pg_encrypted_message = BodyMutator.encode_ascii(click_striker.body)
+    pg_encrypted_message = click_striker.body
     deciphered_message = BodyMutator.decipher_message(pg_encrypted_message)
 
     expect(click_striker.counter).to eq request_params[:click_striker]
