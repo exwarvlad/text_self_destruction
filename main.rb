@@ -12,6 +12,7 @@ require_relative 'config/redis'
 require_relative 'lib/message'
 require_relative 'lib/services/body_service'
 require_relative 'lib/workers/dead_shot_worker'
+require_relative 'config/message_auth'
 
 get '/' do
   slim :index
