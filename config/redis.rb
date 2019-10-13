@@ -4,7 +4,7 @@ require 'sinatra'
 require 'redis'
 require 'uri'
 
-REDISTOGO_URL = 'redis://localhost:6379/3'
+REDISTOGO_URL = ENV['REDISTOGO_URL'] || 'redis://localhost:6379/3'
 
 configure do
   uri = URI.parse(REDISTOGO_URL)
