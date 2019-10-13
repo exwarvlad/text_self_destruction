@@ -1,14 +1,14 @@
+# frozen_string_literal: true
+
 require 'sinatra'
-# require 'dotenv/load'
-# require 'sinatra/activerecord'
-# require_relative '../lib/workers/dead_shot_worker'
-# require_relative 'redis'
 require_relative '../main'
 
+REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost:6379/2'
+
 Sidekiq.configure_server do |config|
-  config.redis = { url: 'redis://localhost:6379/2' }
+  config.redis = { url: REDIS_URL}
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: 'redis://localhost:6379/2' }
+  config.redis = { url: REDIS_URL, size: 1 }
 end
