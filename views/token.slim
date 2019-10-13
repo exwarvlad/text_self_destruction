@@ -1,2 +1,3 @@
 h3 Your link generated
-= "#{request.base_url}/message/#{params[:token]}"
+- link = "#{request.base_url}/message/#{params[:token]}"
+a href=link target='_blank' = link

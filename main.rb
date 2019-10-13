@@ -34,7 +34,7 @@ get '/message/*' do
   end
 end
 
-post '/message/create' do
+post '/message_create' do
   message = Message.new(params, BaseValidator.new)
 
   if message.valid

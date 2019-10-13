@@ -1,14 +1,17 @@
-h3 Self destruction message
+link rel='stylesheet' type='text/css' href="#{url('/styles/application.css')}"
 
-form method='post' action='/message/create'
+h3 Self destruction message
+form method='post' action='/message_create'
   label for='body' Body
-  textarea#body name='body'
   br
+  textarea#body name='body' placeholder='1..255 characters'
   br
   label for='expire_hours' Expire hours
+  br
   input#expire_hours name='expire_hours' placeholder='1..24'
   br
   label for='click_limit' Click limit
+  br
   input#click_limit name='click_striker' placeholder='1..24'
   br
-  input type='submit' value='Create message'
+  input.buffer-top type='submit' value='Create message'

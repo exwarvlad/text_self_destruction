@@ -1,0 +1,11 @@
+.buffer-top {
+  margin-top: 5px;
+}
+
+input, textarea {
+  margin-bottom: 7px;
+}
+
+textarea {
+  height: 70px
+}
