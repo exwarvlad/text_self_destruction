@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_11_085624) do
+ActiveRecord::Schema.define(version: 2019_10_13_062834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2019_10_11_085624) do
     t.string "slug"
     t.integer "counter", null: false
     t.string "body"
+    t.string "jid"
+    t.index ["jid"], name: "index_click_strikers_on_jid", unique: true
     t.index ["slug"], name: "index_click_strikers_on_slug", unique: true
   end
 

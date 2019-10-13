@@ -17,12 +17,13 @@ class MessageService
   def call
     case true
     when striker? && timing?
-      ClickStriker.create(slug: token, counter: click_striker, body: body)
+      jid = DeadShotWorker.perform_at(expire_hours.hours.from_now, token)
+      ClickStriker.create(slug: token, counter: click_striker, jid: jid)
       post_to_redis
     when timing?
       post_to_redis
     when striker?
-      ClickStriker.create(slug: token, counter: click_striker)
+      ClickStriker.create(slug: token, counter: click_striker, body: body)
       REDIS.set(token, body)
     end
   end
