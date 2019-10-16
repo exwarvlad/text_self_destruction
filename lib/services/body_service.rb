@@ -12,27 +12,32 @@ class BodyService
   def call
     case true
     when TokenMutator.timing?(token) && TokenMutator.striker?(token)
-      find_from_pg_and_redis
+      find_from_pg_our_redis
     when TokenMutator.timing?(token)
       return if TokenMutator.find_time_by_token(token) <= Time.now
 
       body = REDIS.get(token)
       BodyMutator.decipher_message(body) if body
     when TokenMutator.striker?(token)
-      find_from_pg_and_redis
+      find_from_pg_our_redis
     end
   end
 
   private
 
-  def find_from_pg_and_redis
+  def find_from_pg_our_redis
     click_striker = ClickStriker.find_by_slug(token)
     return if click_striker.nil?
 
     click_striker.update(counter: click_striker.counter - 1)
 
     if click_striker.counter >= 0
-      decrypted_message = BodyMutator.decipher_message(REDIS.get(token))
+      decrypted_message =
+        if TokenMutator.timing?(token)
+          BodyMutator.decipher_message(REDIS.get(token))
+        else
+          BodyMutator.decipher_message(ClickStriker.find_by_slug(token).body)
+        end
       DeadShotWorker.perform_async(token) if click_striker.counter <= 0
       decrypted_message
     end

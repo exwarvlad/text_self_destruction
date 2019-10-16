@@ -24,7 +24,6 @@ class MessageService
       post_to_redis
     when striker?
       ClickStriker.create(slug: token, counter: click_striker, body: body)
-      REDIS.set(token, body)
     end
   end
 
