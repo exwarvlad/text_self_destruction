@@ -1,0 +1,33 @@
+version: "3.4"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "4567:4567"
+    env_file: .env
+    command: >
+      sh -c "rake db:create
+      && rake db:migrate
+      && rackup --host 0.0.0.0 -p 4567"
+  redis:
+    image: redis
+  db:
+    image: postgres:12.2
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      username: "postgres"
+      host: "db"
+      RAILS_ENV: development
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -r ./main.rb -C config/sidekiq.yml
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env

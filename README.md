@@ -13,3 +13,14 @@ All the messages are stored encrypted on the server. With helpfully algorithm
 [AES](https://ru.wikipedia.org/wiki/Advanced_Encryption_Standard)
 
 Before shown message requires a password
+
+## How to run app
+
+You need a [docker](https://www.docker.com/)  
+
+```
+ruby bin/setup_env.rb  
+docker-compose up -d
+```
+
+Visit a *localhost:4567*
