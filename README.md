@@ -12,15 +12,18 @@ High load app which have create self destroyer messages
 All the messages are stored encrypted on the server. With helpfully algorithm
 [AES](https://ru.wikipedia.org/wiki/Advanced_Encryption_Standard)
 
-Before shown message requires a password
+Before shown message requires a password  
+Default environment account  
+login: admin  
+password: admin 
 
 ## How to run app
 
 You need a [docker](https://www.docker.com/)  
 
 ```
-ruby bin/setup_env.rb  
-docker-compose up -d
+ruby bin/setup_env.rb 
+docker-compose up -d 
 ```
 
-Visit a *localhost:4567*
+Visit a **localhost:4567**
